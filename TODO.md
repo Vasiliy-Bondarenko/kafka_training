@@ -1,0 +1,6 @@
+- [ ] Count Unique users per country
+- [ ] Try with Django
+- [ ] Produce trades
+- [ ] Enrich trades data with users from table
+- [ ] Cleanup repo
+- [ ] None management and signing - with [CloudHSM Signer](https://docs.kaleido.io/kaleido-services/cloudhsm/)?..

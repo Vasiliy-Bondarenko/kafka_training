@@ -1,0 +1,17 @@
+kafka:
+  example-kafka-to-eth:
+    maxTXWaitTime: 60
+    maxInFlight: 25
+    kafka:
+      brokers:
+        - broker:29092
+      topicIn: "ethconnect-requests"
+      topicOut: "ethconnect-replies"
+#      sasl:
+#        username: "example-sasl-user"
+#        password: "example-sasl-pass"
+#      tls:
+#        enabled: true
+      consumerGroup: "ethconnect-kafka-to-eth-cg"
+    rpc:
+      url: "http://localhost:8545"

@@ -1,0 +1,37 @@
+FROM ubuntu:18.04
+
+# install golang
+WORKDIR /usr/local
+RUN apt-get update
+RUN apt --yes install curl
+RUN curl -O https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz
+RUN tar -xvf go1.14.4.linux-amd64.tar.gz
+RUN rm -rf go1.14.4.linux-amd64.tar.gz
+RUN chown -R root:root ./go
+RUN export GOPATH=$HOME/go
+RUN export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+
+
+# ethconnect requires version of solc <0.6, so we have to
+# install SOLC from sources
+RUN apt --yes install git
+RUN git clone --recursive https://github.com/ethereum/solidity.git
+WORKDIR /usr/local/solidity
+RUN git checkout v0.5.17
+# RUN ./scripts/install_deps.sh
+# script above does not work, so installing solc dependencies manually
+RUN apt-get -y install build-essential cmake git libboost-all-dev libz3-dev sudo
+RUN ./scripts/build.sh
+
+# RUN apt-get update
+# RUN apt-get --yes install software-properties-common
+# RUN add-apt-repository --yes ppa:ethereum/ethereum
+# RUN apt-get --yes install solc build-essential curl inetutils-ping
+
+# compile ethconnect
+WORKDIR /app
+COPY ./ethconnect .
+RUN ls -la
+RUN cd src && export GOPATH=$HOME/go && export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin && make deps
+RUN cd src && export GOPATH=$HOME/go && export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin && make build-linux
+CMD src/ethconnect server -f config.yaml

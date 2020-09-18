@@ -1,8 +1,0 @@
-ethconnect
-ethconnect-go-win
-ethconnect-go-tux
-ethconnect-go-mac
-coverage.txt
-**/debug.test
-.vscode
-.DS_Store

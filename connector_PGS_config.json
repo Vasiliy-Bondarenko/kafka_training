@@ -1,0 +1,18 @@
+{
+  "name": "PGS",
+  "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+  "tasks.max": "1",
+  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "topics": "users",
+  "connection.url": "jdbc:postgresql://db:5432/postgres",
+  "connection.user": "postgres",
+  "connection.password": "open",
+  "dialect.name": "PostgreSqlDatabaseDialect",
+  "insert.mode": "upsert",
+  "batch.size": "1",
+  "pk.mode": "record_key",
+  "pk.fields": "id",
+  "auto.create": "true",
+  "auto.evolve": "true"
+}

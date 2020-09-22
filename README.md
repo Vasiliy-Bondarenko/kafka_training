@@ -1,13 +1,19 @@
+TODO:
+- [ ] Use AVRO
+- [ ] Connection to Schema Registry
+
 ## Create a Kafka cluster
 - Go to https://confluent.cloud/
+- Register a new account if you don't have it yet
 - Register an environment
 - Create a cluster of Basic type in any of cloud environments (i was doing on AWS)
 - Open Cluster Settings and take a "Bootstrap server" URL and put it into .env
 - Go to API access > create a key > Next > copy-paste key and secret into .env 
+- Don't forget to save credentials on the page
 - Please be aware that API credentials can start working after a few minutes, not immediately, so if you see authentication error on the next steps - just wait for a few minutes.
 
 - Install the Confluent Cloud CLI
-    `curl -L --http1.1 https://cnfl.io/ccloud-cli | sh -s -- -b /<path-to-directory>/bin`
+    `curl -L --http1.1 https://cnfl.io/ccloud-cli | sh -s -- -b /usr/local/bin`
 - log in to your Confluent Cloud cluster: `ccloud login`  
 Your output should resemble:
 ```
@@ -27,7 +33,7 @@ Your output should resemble:
     lkc-low0y | My second cluster | gcp      | us-central1 | LOW        | UP
 ```
 - Run this command to designate the active cluster.
-`ccloud kafka cluster use CLUSTER_NAME`  
+`ccloud kafka cluster use CLUSTER_ID`  
 
 - Initialize topics `./init.sh`   
 You should see something like `Created topic "users".`
@@ -37,7 +43,7 @@ You should see something like `Created topic "users".`
 - `docker-compose ps` - make sure all services are running
 - it may take about 2 minutes to start and connect to Kafka in the cloud  
 - control with `docker-compose logs -f connect`
-- open in the browser [control center](http://localhost:8007) - it may take some time to start
+- open in the browser [Connect UI](http://localhost:8007) - it may take some time to start
 
 Congrats! You have a running Kafka environment. 
 

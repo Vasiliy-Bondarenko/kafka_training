@@ -19,11 +19,11 @@ class User():
                 "type": "string",
                 "optional": False
             },
-            # {
-            #     "field": "country",
-            #     "type": "string",
-            #     "optional": True
-            # }
+            {
+                "field": "country",
+                "type": "string",
+                "optional": True
+            }
         ]
     }
 
@@ -32,5 +32,5 @@ class User():
         return {
             "id": str(fake.random_int(1, id_up_to)),
             "name": fake.name(),
-            # "country": fake.country(),
+            "country": fake.country(),
         }

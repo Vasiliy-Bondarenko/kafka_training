@@ -1,26 +1,47 @@
 #!/usr/bin/env python
+'''
+Start this app with
+> ./start.sh
+'''
+
+import os
+import ssl
+
 import faust
+from faust.types.auth import SASLMechanism
 
 from trade import Trade
 from user import User
 from general import prevent_freezing
 prevent_freezing()
 
+from dotenv import load_dotenv
+load_dotenv()
 
-'''
-Start this app with 
-> ./start.sh
-'''
 
-# basic app config: https://faust.readthedocs.io/en/latest/userguide/application.html#application-configuration
-# full keyword arguments list: https://faust.readthedocs.io/en/latest/userguide/settings.html#guide-settings
+BROKER_USERNAME = os.getenv('BROKER_USERNAME')
+BROKER_PASSWORD = os.getenv('BROKER_PASSWORD')
+
+
 app = faust.App(
     'users-app',
-    broker='kafka://broker:29092',
+    broker="kafka://" + os.getenv("BROKER_URL"),
+    broker_credentials=faust.SASLCredentials(
+        username=os.getenv("BROKER_KEY"),
+        password=os.getenv("BROKER_SECRET"),
+        mechanism="PLAIN",
+        ssl_context=ssl.create_default_context(),
+    ),
+
     topic_partitions=12,
+    topic_replication_factor=3,
+    topic_allow_declare=True,
 )
+# basic app config: https://faust.readthedocs.io/en/latest/userguide/application.html#application-configuration
+# full keyword arguments list: https://faust.readthedocs.io/en/latest/userguide/settings.html#guide-settings
 # topic_users = app.topic('users', value_type=User)
 topic_users = app.topic('users', value_serializer='json')
+
 
 # Create users stream
 @app.agent(topic_users)
@@ -40,12 +61,12 @@ async def produce_users(app):
         "payload": User.fake(how_many_users_to_use)
     }
 
-    print(f"Producing user: {user['payload']}")
-
     await users_stream.send(
         value=user,
-        key=str(user["payload"]["id"]),
+        key=str(user["payload"]["id"])
     )
+
+    print(f"User created: {user}")
 
 
 if __name__ == '__main__':

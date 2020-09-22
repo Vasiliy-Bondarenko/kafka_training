@@ -1,53 +1,63 @@
-Watch https://www.youtube.com/watch?v=06iRM1Ghr1k  
-And this https://www.youtube.com/watch?v=JalUUBKdcA0
+## Create a Kafka cluster
+- Go to https://confluent.cloud/
+- Register an environment
+- Create a cluster of Basic type in any of cloud environments (i was doing on AWS)
+- Open Cluster Settings and take a "Bootstrap server" URL and put it into .env
+- Go to API access > create a key > Next > copy-paste key and secret into .env 
+- Please be aware that API credentials can start working after a few minutes, not immediately, so if you see authentication error on the next steps - just wait for a few minutes.
 
+- Install the Confluent Cloud CLI
+    `curl -L --http1.1 https://cnfl.io/ccloud-cli | sh -s -- -b /<path-to-directory>/bin`
+- log in to your Confluent Cloud cluster: `ccloud login`  
+Your output should resemble:
+```
+Enter your Confluent credentials:
+Email: jdoe@myemail.io
+Password:
 
-> Docker memory is allocated minimally at 8 GB. When using Docker Desktop for Mac, the default Docker memory allocation is 2 GB. You can change the default allocation to 8 GB in Docker > Preferences > Advanced.
+Logged in as jdoe@myemail.io
+Using environment t118 ("default")
+```
+- Run this command to view your cluster.: `ccloud kafka cluster list`  
+Your output should resemble:
+```
+      Id      |       Name        | Provider |   Region    | Durability | Status
++-------------+-------------------+----------+-------------+------------+--------+
+    lkc-emmox | My first cluster  | gcp      | us-central1 | LOW        | UP
+    lkc-low0y | My second cluster | gcp      | us-central1 | LOW        | UP
+```
+- Run this command to designate the active cluster.
+`ccloud kafka cluster use CLUSTER_NAME`  
+
+- Initialize topics `./init.sh`   
+You should see something like `Created topic "users".`
+
 
 - run `docker-compose up -d`  
-- `docker-compose ps` - make sure all services are running  
-- if not - restart with `docker-compose stop && docker-compose up -d`
-- control with `docker-compose logs --tail=100 -f control-center`
-- open in the browser [control center](http://localhost:9021/clusters) - it may take some time to start
-- wait for 1 healthy cluster to appear
+- `docker-compose ps` - make sure all services are running
+- it may take about 2 minutes to start and connect to Kafka in the cloud  
+- control with `docker-compose logs -f connect`
+- open in the browser [control center](http://localhost:8007) - it may take some time to start
 
-Congrats! You have a running Kafka cluster. 
+Congrats! You have a running Kafka environment. 
 
 - run `docker-compose exec app bash`
-- to produce a few messages run  
-`./start.sh`
+- run `./init.sh` to create topics in you Kafka cluster
+- to produce a few messages run `./start.sh`
+- go to [Connect UI](http://localhost:8007)
+- create new connector of type JDBC Sink
+- switch to JSON tab
+- copy-paste content from [this file](./connector_PGS_config.json)
+- click "Create"
+- now you can connect to your local database with any sql client (db: localhost, port: 8032, user: postgres, db: postgres, password: open)
+- if everything is working you should see `users` table and new records being created or updated every second
+- if do not see the table or no records:
+    - make sure you run `./start.sh` in `app` container
+    - go to https://confluent.cloud/ and make sure you have new messages being produced in `users` topic
+    - check logs `docker-compose logs -f connect` if you have any problems connecting to kafka - you should see some errors 
 
-name: PGS
-
-Tasks: 1
-
-Key converter class: 
-org.apache.kafka.connect.storage.StringConverter
-
-Topics:
-users
-
-Value converter class:
-org.apache.kafka.connect.json.JsonConverter
-
-## Connection
-JDBC URL: 
-jdbc:postgresql://db:8032/postgres
-
-JDBC User:
-postgres
-
-JDBC Passowrd:
-open
-
-Dataabse Dialect:
-PostgreSqlDatabaseDialect
-
-Insert mode:
-upsert
-
-Primary Key Mode:
-record_key
-
-Auto-Create: true
-Auto-Evolve: true
+Assignment:
+- create new `accounts` table in the database
+- create a few records
+- using [Connect UI](http://localhost:8007) create 'Source JDBC' connector to pull data from database and push it into Kafka.
+- make sure new records are created in Kafka

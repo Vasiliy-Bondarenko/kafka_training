@@ -2,7 +2,7 @@ import faust
 from simple_settings import settings
 
 app = faust.App(
-    id=1,
+    id="kafka_faker",
     debug=settings.DEBUG,
     autodiscover=["page_views"],
     broker=settings.KAFKA_BOOTSTRAP_SERVER,

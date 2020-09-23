@@ -43,7 +43,7 @@ LOGGING = dictConfig(
     }
 )
 
-TOPIC_ALLOW_DECLARE = False
+TOPIC_ALLOW_DECLARE = True
 TOPIC_DISABLE_LEADER = False
 
 SSL_ENABLED = False

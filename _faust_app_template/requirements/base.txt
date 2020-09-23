@@ -1,3 +1,4 @@
 faust
 simple-settings
 python-schema-registry-client
+Faker

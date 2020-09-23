@@ -1,0 +1,11 @@
+replicas: 2
+
+hostname: 'kafka_faker.com'
+env: prod
+
+worker:
+  debug: false
+  storeUri: "rocksdb://"
+
+bootstrapServers:
+  - kafka:9093

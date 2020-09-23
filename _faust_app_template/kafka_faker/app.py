@@ -10,5 +10,6 @@ app = faust.App(
     logging_config=settings.LOGGING,
     topic_allow_declare=settings.TOPIC_ALLOW_DECLARE,
     topic_disable_leader=settings.TOPIC_DISABLE_LEADER,
-    broker_credentials=settings.SSL_CONTEXT,
+    broker_credentials=settings.BROKER_CREDENTIALS,
+    topic_replication_factor=3,
 )

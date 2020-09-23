@@ -1,4 +1,6 @@
 faust
 simple-settings
 python-schema-registry-client
+python-schema-registry-client[faust]
 Faker
+python-dotenv

@@ -68,3 +68,11 @@ Assignment:
 - create a few records
 - using [Connect UI](http://localhost:8007) create 'Source JDBC' connector to pull data from database and push it into Kafka.
 - make sure new records are created in Kafka
+
+
+Schema Registry
+- Go to [https://confluent.cloud/](https://confluent.cloud/)
+- Open your environment / Settings tab / Schema Registry API access [screenshot](http://joxi.ru/DmB4Dv7i4dVRjA)
+- Copy-paste Schema Registry endpoint into .env
+- Create new key and copy-paste credentials into .env
+- Give it any description, click checkbox and click "Continue"

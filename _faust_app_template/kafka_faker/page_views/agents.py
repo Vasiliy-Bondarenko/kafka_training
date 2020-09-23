@@ -2,9 +2,10 @@ import logging
 
 from app import app
 from .models import User
+from .codecs import  avro_user_serializer
 
 # page_view_topic = app.topic("page_views", value_type=PageView)
-topic_users = app.topic("users", value_serializer='json')
+topic_users = app.topic("users", value_type=User)
 
 # page_views = app.Table("page_views", default=int)
 
@@ -23,14 +24,12 @@ logger = logging.getLogger(__name__)
 @app.timer(interval=1.0)
 async def users_producer():
 
-    user = {
-        "schema": User.schema,
-        "payload": User.fake(50)
-    }
+    user = User.fake(50)
 
     await topic_users.send(
         value=user,
-        key=str(user["payload"]["id"])
+        key=str(user.id),
+        value_serializer=avro_user_serializer
     )
 
     print(f"User created: {user}")

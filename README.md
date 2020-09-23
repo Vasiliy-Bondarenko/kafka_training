@@ -49,6 +49,7 @@ Congrats! You have a running Kafka environment.
 
 - run `docker-compose exec app bash`
 - run `./init.sh` to create topics in you Kafka cluster
+- run `pip install python-dotenv` just in case you are running old image :)
 - to produce a few messages run `./start.sh`
 - go to [Connect UI](http://localhost:8007)
 - create new connector of type JDBC Sink

@@ -19,7 +19,7 @@ client = SchemaRegistryClient(conf)
 # are using a dict, but this schema could be located in a file called avro_user_schema.avsc
 avro_user_schema = schema.AvroSchema({
     "type": "record",
-    "namespace": "com.example",
+    "namespace": "com.ktbst",
     "name": "AvroUsers",
     "fields": [
         {"name": "id", "type": "string"},
@@ -27,6 +27,7 @@ avro_user_schema = schema.AvroSchema({
         {"name": "country", "type": "string"}
     ]
 })
+
 # avro_trade_schema = schema.AvroSchema({
 #     "type": "record",
 #     "namespace": "com.example",

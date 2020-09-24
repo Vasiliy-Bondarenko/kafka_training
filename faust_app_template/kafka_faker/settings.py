@@ -18,8 +18,8 @@ KAFKA_BOOTSTRAP_SERVER = "kafka://kafka:9092"
 # Faust storage
 STORE_URI = "memory://"
 
-LOGGING = dictConfig(
-    {
+dictConfig(
+    { # https://docs.python.org/dev/library/logging.config.html#logging.config.dictConfig
         "version": 1,
         "disable_existing_loggers": False,
         "formatters": {
@@ -29,15 +29,15 @@ LOGGING = dictConfig(
         },
         "handlers": {
             "console": {
-                "level": "INFO",
+                "level": "NOTSET", # https://docs.python.org/dev/library/logging.html#levels
                 "class": "logging.StreamHandler",
                 "formatter": "default",
             }
         },
         "loggers": {
-            "example": {
+            "faust.app.base": {
                 "handlers": ["console"],
-                "level": "INFO",
+                "level": "NOTSET",
             },
         },
     }

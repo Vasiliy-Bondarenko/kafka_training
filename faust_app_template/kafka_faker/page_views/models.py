@@ -14,7 +14,6 @@ from faker import Faker
 
 fake = Faker()
 
-
 class User(faust.Record, serializer='avro_users'):
     id: str
     name: str

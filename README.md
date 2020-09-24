@@ -8,8 +8,9 @@ TODO:
 - [x] Check what happens if i produce incorrect data
 - [ ] AVRO tutorial
 - [x] Move codec into model?..
-- [ ] Exceptions
+- [x] Exceptions
 - [ ] remove settings?.. 
+- [ ] faust web endpoints
 
 ## Create a Kafka cluster
 - Go to https://confluent.cloud/
@@ -85,3 +86,8 @@ Schema Registry
 - Copy-paste Schema Registry endpoint into .env
 - Create new key and copy-paste credentials into .env
 - Give it any description, click checkbox and click "Continue"
+
+
+## More information:
+- [Faust overview](https://www.youtube.com/watch?v=Ik1PBbCWcTc)
+- [AVRO specs](http://avro.apache.org/docs/current/spec.html)

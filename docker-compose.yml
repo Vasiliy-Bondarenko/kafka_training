@@ -62,6 +62,8 @@ services:
       tail -f /dev/null"
     volumes:
       - ./faust_app_template:/app
+    ports:
+      - 6066:6066
     environment:
       WORKER_PORT: 6066
       KAFKA_BOOTSTRAP_SERVER: ${BROKER_URL}

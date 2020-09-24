@@ -1,8 +1,8 @@
 TODO:
 - [x] Use AVRO
 - [x] Connection to Schema Registry
-- [ ] Try to sink into DB
-- [ ] Try to modify schema - add new nullable fileds, and provide no data - see if connect will update table schema
+- [x] Try to sink into DB
+- [x] Try to modify schema - add new nullable fields, and provide no data - see if connect will update table schema
 
 ## Create a Kafka cluster
 - Go to https://confluent.cloud/

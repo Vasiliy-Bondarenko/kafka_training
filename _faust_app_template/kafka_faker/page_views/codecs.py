@@ -18,13 +18,15 @@ client = SchemaRegistryClient(conf)
 # schema that we want to use. For this example we
 # are using a dict, but this schema could be located in a file called avro_user_schema.avsc
 avro_user_schema = schema.AvroSchema({
+    # schema specs: http://avro.apache.org/docs/current/spec.html
     "type": "record",
     "namespace": "com.ktbst",
     "name": "AvroUsers",
     "fields": [
         {"name": "id", "type": "string"},
         {"name": "name", "type": "string"},
-        {"name": "country", "type": "string"}
+        {"name": "country", "type": "string"},
+        {"name": "phone", "type": ["null", "string"], "default": None} # optional nullable field
     ]
 })
 
@@ -41,7 +43,13 @@ avro_user_schema = schema.AvroSchema({
 #     ]
 # })
 
-avro_user_serializer = FaustSerializer(client, "users", avro_user_schema)
+avro_user_serializer = FaustSerializer(
+    client,
+    # Kafka Connect can find it automatically if name is: <topicName>-value
+    # Subject Name Strategy: https://docs.confluent.io/current/schema-registry/serdes-develop/index.html#sr-schemas-subject-name-strategy
+    "users-value",
+    avro_user_schema
+)
 # avro_trade_serializer = FaustSerializer(client, "trades", avro_trade_schema)
 
 

@@ -17,21 +17,21 @@ conf = {
 # create an instance of the `SchemaRegistryClient`
 client = SchemaRegistryClient(conf)
 
-avro_user_schema = schema.AvroSchema({
-    "type": "record",
-    "namespace": "com.example",
-    "name": "AvroUsers",
-    "fields": [
-        {"name": "id", "type": "string"},
-        {"name": "name", "type": "string"},
-        {"name": "country", "type": "string"}
-    ]
-})
-
-avro_user_serializer = FaustSerializer(client, "users", avro_user_schema)
+# avro_user_schema = schema.AvroSchema({
+#     "type": "record",
+#     "namespace": "com.example",
+#     "name": "AvroUsers",
+#     "fields": [
+#         {"name": "id", "type": "string"},
+#         {"name": "name", "type": "string"},
+#         {"name": "country", "type": "string"}
+#     ]
+# })
+#
+# avro_user_serializer = FaustSerializer(client, "users-value", avro_user_schema)
 
 try:
-    r = client.get_subjects()
+    r = client.delete_subject("users-value")
     raise Exception(r)
 
 

@@ -1,14 +1,10 @@
+# JDBC Sink Connector for Confluent Platform docs: https://docs.confluent.io/current/connect/kafka-connect-jdbc/sink-connector/index.html
+
 name=PGS
 connector.class=io.confluent.connect.jdbc.JdbcSinkConnector
 tasks.max=1
 key.converter=org.apache.kafka.connect.storage.StringConverter
 value.converter=io.confluent.connect.avro.AvroConverter
-
-                                      # replace me!!!!
-value.converter.schema.registry.url=https://psrc-l7opw.europe-west3.gcp.confluent.cloud
-value.converter.basic.auth.credentials.source=USER_INFO
-value.converter.basic.auth.user.info=JCCVTCMBMDO6FLZB:CYxe3bIcNIonX8BGcHZw23B6L/H1cEz8wWDr8vy3ox17H98LBkLBxyriBKE++Izt
-
 topics=users
 connection.url=jdbc:postgresql://db:5432/postgres
 connection.user=postgres
@@ -20,3 +16,10 @@ pk.mode=record_key
 pk.fields=id
 auto.create=true
 auto.evolve=true
+
+
+# connection docs: https://docs.confluent.io/current/schema-registry/connect.html
+# replace values!!!!
+value.converter.schema.registry.url=https://psrc-l7opw.europe-west3.gcp.confluent.cloud
+value.converter.basic.auth.credentials.source=USER_INFO
+value.converter.basic.auth.user.info=JCCVTCMBMDO6FLZB:CYxe3bIcNIonX8BGcHZw23B6L/H1cEz8wWDr8vy3ox17H98LBkLBxyriBKE++Izt

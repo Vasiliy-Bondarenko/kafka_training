@@ -56,12 +56,12 @@ services:
       CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       CONNECT_REST_ADVERTISED_HOST_NAME: connect
   faust_app_template:
-    build: ./_faust_app_template
+    build: ./faust_app_template
     entrypoint: |
       bash -c "
       tail -f /dev/null"
     volumes:
-      - ./_faust_app_template:/app
+      - ./faust_app_template:/app
     environment:
       WORKER_PORT: 6066
       KAFKA_BOOTSTRAP_SERVER: ${BROKER_URL}

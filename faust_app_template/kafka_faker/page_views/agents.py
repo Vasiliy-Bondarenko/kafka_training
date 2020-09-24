@@ -2,7 +2,7 @@ import logging
 
 from app import app
 from .models import User
-from .codecs import  avro_user_serializer
+# from .codecs import  avro_user_serializer
 
 # page_view_topic = app.topic("page_views", value_type=PageView)
 topic_users = app.topic("users", value_type=User)
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 #
 #         yield view
 
-
+user_serializer = User.init_serializer()
 
 @app.timer(interval=1.0)
 async def users_producer():
@@ -29,7 +29,7 @@ async def users_producer():
     await topic_users.send(
         value=user,
         key=str(user.id),
-        value_serializer=avro_user_serializer
+        value_serializer=user_serializer
     )
 
     print(f"User created: {user}")

@@ -1,0 +1,6 @@
+#!/bin/sh
+set -x
+
+export SIMPLE_SETTINGS=kafka_faker.settings
+
+PYTHONPATH=kafka_faker python kafka_faker/play.py

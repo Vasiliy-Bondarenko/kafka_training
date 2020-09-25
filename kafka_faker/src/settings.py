@@ -18,8 +18,9 @@ KAFKA_BOOTSTRAP_SERVER = "kafka://kafka:9092"
 # Faust storage
 STORE_URI = "memory://"
 
+# Logs configuration: # https://docs.python.org/dev/library/logging.config.html#logging.config.dictConfig
 dictConfig(
-    { # https://docs.python.org/dev/library/logging.config.html#logging.config.dictConfig
+    {
         "version": 1,
         "disable_existing_loggers": False,
         "formatters": {

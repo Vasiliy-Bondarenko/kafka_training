@@ -1,7 +1,7 @@
 import logging
 
 from app import app
-from kafka_faker.models.LogItem import LogItem
+from src.models.LogItem import LogItem
 # from .codecs import  avro_user_serializer
 
 

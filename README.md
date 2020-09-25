@@ -3,14 +3,11 @@ TODO:
 - [x] Connection to Schema Registry
 - [x] Try to sink into DB
 - [x] Try to modify schema - add new nullable fields, and provide no data - see if connect will update table schema
-- [ ] Check credentials and update docs
-- [ ] Cleanup
+- [x] Cleanup
+- [ ] Finish cleanup...
 - [x] Check what happens if i produce incorrect data
-- [ ] AVRO tutorial
 - [x] Move codec into model?..
 - [x] Exceptions
-- [ ] remove settings?.. 
-- [ ] faust web endpoints
 
 ## Create a Kafka cluster
 - Go to https://confluent.cloud/

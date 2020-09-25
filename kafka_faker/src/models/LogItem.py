@@ -1,7 +1,7 @@
 import faust
 from schema_registry.client import schema
 from schema_registry.serializers import FaustSerializer
-from kafka_faker.schema_registry_client import schemaRegistryClient
+from src.schema_registry_client import schemaRegistryClient
 from faust.serializers import codecs
 
 from faker import Faker

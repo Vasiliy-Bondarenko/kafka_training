@@ -64,13 +64,13 @@ services:
       SCHEMA_REGISTRY_ENDPOINT: ${SCHEMA_REGISTRY_ENDPOINT}
       SCHEMA_REGISTRY_KEY: ${SCHEMA_REGISTRY_KEY}
       SCHEMA_REGISTRY_SECRET: ${SCHEMA_REGISTRY_SECRET}
-  faust_app_template:
-    build: ./faust_app_template
+  kafka_faker:
+    build: ./kafka_faker
     entrypoint: |
       bash -c "
       tail -f /dev/null"
     volumes:
-      - ./faust_app_template:/app
+      - ./kafka_faker:/app
     ports:
       - 6066:6066
     environment:
@@ -79,13 +79,17 @@ services:
       BROKER_KEY: ${BROKER_KEY}
       BROKER_SECRET: ${BROKER_SECRET}
       SSL_ENABLED: 1
-  app:
-    build: .
-    entrypoint: |
-      bash -c "
-      tail -f /dev/null"
-    volumes:
-      - .:/app
+
+      SCHEMA_REGISTRY_ENDPOINT: ${SCHEMA_REGISTRY_ENDPOINT}
+      SCHEMA_REGISTRY_KEY: ${SCHEMA_REGISTRY_KEY}
+      SCHEMA_REGISTRY_SECRET: ${SCHEMA_REGISTRY_SECRET}
+#  app:
+#    build: .
+#    entrypoint: |
+#      bash -c "
+#      tail -f /dev/null"
+#    volumes:
+#      - .:/app
   db:
     image: postgres
     ports:

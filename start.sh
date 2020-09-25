@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-faust -A produce_users_and_trades worker
+source .env
+docker-compose up $1

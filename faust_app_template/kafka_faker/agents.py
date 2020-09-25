@@ -1,11 +1,12 @@
 import logging
 
 from app import app
-from .models import User
+from kafka_faker.models.LogItem import LogItem
 # from .codecs import  avro_user_serializer
 
+
 # page_view_topic = app.topic("page_views", value_type=PageView)
-topic_users = app.topic("users", value_type=User)
+topic_logs = app.topic("logs", value_type=LogItem)
 
 # page_views = app.Table("page_views", default=int)
 
@@ -19,25 +20,24 @@ logger = logging.getLogger(__name__)
 #
 #         yield view
 
-user_serializer = User.init_serializer()
+log_item_serializer = LogItem.init_serializer()
 
 @app.timer(interval=1.0)
-async def users_producer():
+async def logs_producer():
+    log_item = LogItem.fake()
 
-    user = User.fake(50)
-
-    await topic_users.send(
-        value=user,
-        key=str(user.id),
-        value_serializer=user_serializer
+    await topic_logs.send(
+        value=log_item,
+        key=str(log_item.customer_id),
+        value_serializer=log_item_serializer
     )
 
-    print(f"User created: {user}")
+    print(f"LogItem created: {log_item}")
 
 
-@app.agent(topic_users)
-async def users_consumer(events):
+@app.agent(topic_logs)
+async def logs_consumer(events):
     async for event in events:
+        logger.info("Received event: ")
         logger.info(event)
-
         yield event

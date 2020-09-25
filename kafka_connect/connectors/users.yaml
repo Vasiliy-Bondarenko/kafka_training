@@ -1,6 +1,8 @@
+# upsert (insert or update if exists) strategy for any records which can be updated
+
 # JDBC Sink Connector for Confluent Platform docs: https://docs.confluent.io/current/connect/kafka-connect-jdbc/sink-connector/index.html
 
-name=PGS
+name=Users
 connector.class=io.confluent.connect.jdbc.JdbcSinkConnector
 tasks.max=1
 key.converter=org.apache.kafka.connect.storage.StringConverter
@@ -20,6 +22,6 @@ auto.evolve=true
 
 # connection docs: https://docs.confluent.io/current/schema-registry/connect.html
 # replace values!!!!
-value.converter.schema.registry.url=https://${SCHEMA_REGISTRY_ENDPOINT}
+value.converter.schema.registry.url=${SCHEMA_REGISTRY_ENDPOINT}
 value.converter.basic.auth.credentials.source=USER_INFO
 value.converter.basic.auth.user.info=${SCHEMA_REGISTRY_KEY}:${SCHEMA_REGISTRY_SECRET}

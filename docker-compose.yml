@@ -1,7 +1,11 @@
+# !!!!!!!!! NOTE !!!!!!!!!!!
+# pass-through variables from environment into containers with ${VAR}
+# start services with ./start.sh script
 ---
 version: '2'
 services:
   connect-ui:
+    # docs: https://github.com/lensesio/kafka-connect-ui
     image: landoop/kafka-connect-ui
     ports:
     - 8007:8000
@@ -10,15 +14,16 @@ services:
     depends_on:
       - connect
   connect:
-    # docs: https://github.com/lensesio/kafka-connect-ui
-    image: cnfldemos/cp-server-connect-datagen:0.3.1-5.4.1
+    image: confluentinc/cp-kafka-connect:5.4.1
     hostname: connect
     container_name: connect
     ports:
       - "8083:8083"
+    volumes:
+      - ./kafka_connect:/app
+    command: /app/start.sh
     environment:
       # settings taken mostly from: https://docs.confluent.io/4.0.0/cloud/connect/connect-cloud-config.html#standalone-cluster
-
       CONNECT_BOOTSTRAP_SERVERS: ${BROKER_URL}
 
       CONNECT_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
@@ -55,6 +60,10 @@ services:
       CONNECT_INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       CONNECT_REST_ADVERTISED_HOST_NAME: connect
+
+      SCHEMA_REGISTRY_ENDPOINT: ${SCHEMA_REGISTRY_ENDPOINT}
+      SCHEMA_REGISTRY_KEY: ${SCHEMA_REGISTRY_KEY}
+      SCHEMA_REGISTRY_SECRET: ${SCHEMA_REGISTRY_SECRET}
   faust_app_template:
     build: ./faust_app_template
     entrypoint: |

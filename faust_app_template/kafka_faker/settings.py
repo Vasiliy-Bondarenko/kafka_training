@@ -35,7 +35,7 @@ dictConfig(
             }
         },
         "loggers": {
-            "faust.app.base": {
+            "faust.app.base": { # name of the logger faust is using internally.
                 "handlers": ["console"],
                 "level": "NOTSET",
             },

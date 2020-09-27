@@ -19,9 +19,9 @@ TODO:
 - Don't forget to save credentials on the page
 - Please be aware that API credentials can start working after a few minutes, not immediately, so if you see authentication error on the next steps - just wait for a few minutes.
 
-- Install the Confluent Cloud CLI
-    `curl -L --http1.1 https://cnfl.io/ccloud-cli | sh -s -- -b /usr/local/bin`
-- log in to your Confluent Cloud cluster: `ccloud login`  
+- Run `devops` container
+`docker-compose up -d devops`
+- log in to your Confluent Cloud cluster: `./ccloud.sh login`  
 Your output should resemble:
 ```
 Enter your Confluent credentials:
@@ -31,7 +31,7 @@ Password:
 Logged in as jdoe@myemail.io
 Using environment t118 ("default")
 ```
-- Run this command to view your cluster.: `ccloud kafka cluster list`  
+- Run this command to view your cluster.: `./ccloud.sh kafka cluster list`  
 Your output should resemble:
 ```
       Id      |       Name        | Provider |   Region    | Durability | Status
@@ -40,9 +40,9 @@ Your output should resemble:
     lkc-low0y | My second cluster | gcp      | us-central1 | LOW        | UP
 ```
 - Run this command to designate the active cluster.
-`ccloud kafka cluster use CLUSTER_ID`  
+`./ccloud.sh kafka cluster use CLUSTER_ID`  
 
-- Initialize topics `./init.sh`   
+- Initialize topics `./init_topics.sh`   
 You should see something like `Created topic "users".`
 
 

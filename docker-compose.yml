@@ -83,16 +83,16 @@ services:
       SCHEMA_REGISTRY_ENDPOINT: ${SCHEMA_REGISTRY_ENDPOINT}
       SCHEMA_REGISTRY_KEY: ${SCHEMA_REGISTRY_KEY}
       SCHEMA_REGISTRY_SECRET: ${SCHEMA_REGISTRY_SECRET}
-#  app:
-#    build: .
-#    entrypoint: |
-#      bash -c "
-#      tail -f /dev/null"
-#    volumes:
-#      - .:/app
   db:
     image: postgres
     ports:
       - "8032:5432"
     environment:
       POSTGRES_PASSWORD: open
+  devops:
+    build: ./devops
+    entrypoint: |
+      bash -c "
+      tail -f /dev/null"
+    volumes:
+      - ./devops:/app

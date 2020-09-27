@@ -1,15 +1,5 @@
-TODO:
-- [x] Use AVRO
-- [x] Connection to Schema Registry
-- [x] Try to sink into DB
-- [x] Try to modify schema - add new nullable fields, and provide no data - see if connect will update table schema
-- [x] Cleanup
-- [ ] Finish cleanup...
-- [x] Check what happens if i produce incorrect data
-- [x] Move codec into model?..
-- [x] Exceptions
-
 ## Create a Kafka cluster
+- `cp .env.example .env`
 - Go to https://confluent.cloud/
 - Register a new account if you don't have it yet
 - Register an environment

@@ -89,10 +89,3 @@ services:
       - "8032:5432"
     environment:
       POSTGRES_PASSWORD: open
-  devops:
-    build: ./devops
-    entrypoint: |
-      bash -c "
-      tail -f /dev/null"
-    volumes:
-      - ./devops:/app

@@ -33,48 +33,23 @@ Your output should resemble:
 `./ccloud.sh kafka cluster use CLUSTER_ID`  
 
 - Initialize topics `./init_topics.sh`   
-You should see something like `Created topic "users".`
+You should see something like `Created topic "logs".`
 
-
-- run `docker-compose up -d`  
-- `docker-compose ps` - make sure all services are running
-- it may take about 2 minutes to start and connect to Kafka in the cloud  
-- control with `docker-compose logs -f connect`
-- open in the browser [Connect UI](http://localhost:8007) - it may take some time to start
-
-Congrats! You have a running Kafka environment. 
-
-- run `docker-compose exec app bash`
-- run `./init.sh` to create topics in you Kafka cluster
-- run `pip install python-dotenv` just in case you are running old image :)
-- to produce a few messages run `./start.sh`
-- go to [Connect UI](http://localhost:8007)
-- create new connector of type JDBC Sink
-- switch to JSON tab
-- copy-paste content from [this file](./connector_PGS_config.json)
-- click "Create"
-- now you can connect to your local database with any sql client (db: localhost, port: 8032, user: postgres, db: postgres, password: open)
-- if everything is working you should see `users` table and new records being created or updated every second
-- if do not see the table or no records:
-    - make sure you run `./start.sh` in `app` container
-    - go to https://confluent.cloud/ and make sure you have new messages being produced in `users` topic
-    - check logs `docker-compose logs -f connect` if you have any problems connecting to kafka - you should see some errors 
-
-Assignment:
-- create new `accounts` table in the database
-- create a few records
-- using [Connect UI](http://localhost:8007) create 'Source JDBC' connector to pull data from database and push it into Kafka.
-- make sure new records are created in Kafka
-
-
-Schema Registry
+## Schema Registry
 - Go to [https://confluent.cloud/](https://confluent.cloud/)
 - Open your environment / Settings tab / Schema Registry API access [screenshot](http://joxi.ru/DmB4Dv7i4dVRjA)
 - Copy-paste Schema Registry endpoint into .env
 - Create new key and copy-paste credentials into .env
 - Give it any description, click checkbox and click "Continue"
 
+## Start the project
+- run `docker-compose up -d`  
+- `docker-compose ps` - make sure all services are running
+- open in the browser [Connect UI](http://localhost:8007) - it may take some time to start. After "connect" service is started it will be at least one connector loaded (make sure you see "logs" connector running)
+- control with `docker-compose logs -f connect` if needed
 
-## More information:
+Congrats! You have a running Kafka environment. 
+
+## More information
 - [Faust overview](https://www.youtube.com/watch?v=Ik1PBbCWcTc)
 - [AVRO specs](http://avro.apache.org/docs/current/spec.html)

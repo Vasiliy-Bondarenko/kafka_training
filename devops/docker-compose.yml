@@ -4,10 +4,17 @@
 ---
 version: '2'
 services:
-    devops:
-      build: .
-      entrypoint: |
-        bash -c "
-        tail -f /dev/null"
-      volumes:
-        - .:/app
+  devops:
+    build: .
+    entrypoint: |
+      bash -c "
+      tail -f /dev/null"
+    volumes:
+      - .:/app
+  kafkacat:
+    build: ./kafka_kaleido
+    entrypoint: |
+      bash -c "
+      tail -f /dev/null"
+    volumes:
+      - ./kafka_kaleido:/app

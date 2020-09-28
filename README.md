@@ -9,8 +9,7 @@
 - Don't forget to save credentials on the page
 - Please be aware that API credentials can start working after a few minutes, not immediately, so if you see authentication error on the next steps - just wait for a few minutes.
 
-- Run `devops` container
-`docker-compose up -d devops`
+## Login into Confluent Cloud
 - log in to your Confluent Cloud cluster: `./ccloud.sh login`  
 Your output should resemble:
 ```

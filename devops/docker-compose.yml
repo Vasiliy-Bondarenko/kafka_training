@@ -13,8 +13,8 @@ services:
       - .:/app
   kafkacat:
     build: ./kafka_kaleido
-    entrypoint: |
-      bash -c "
-      tail -f /dev/null"
+#    entrypoint: |
+#      bash -c "
+#      tail -f /dev/null"
     volumes:
       - ./kafka_kaleido:/app

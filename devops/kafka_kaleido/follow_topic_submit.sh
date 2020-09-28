@@ -11,5 +11,5 @@ docker run -it --network=host edenhill/kafkacat:1.6.0 \
   -X sasl.password=$KALEIDO_BROKER_SECRET \
   -o -5 \
   -D \\n\\n \
-  -J \
+  -q \
   -C -t $KALEIDO_SUBMIT_TOPIC

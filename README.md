@@ -10,7 +10,7 @@
 - Please be aware that API credentials can start working after a few minutes, not immediately, so if you see authentication error on the next steps - just wait for a few minutes.
 
 ## Login into Confluent Cloud
-- log in to your Confluent Cloud cluster: `./ccloud.sh login`  
+- log in to your Confluent Cloud cluster: `./ccloud.sh login --save`  
 Your output should resemble:
 ```
 Enter your Confluent credentials:

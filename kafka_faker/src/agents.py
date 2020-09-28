@@ -18,9 +18,12 @@ async def send_transfer():
     from faker import Faker
     fake = Faker()
     id=fake.uuid4()
+    contract_address = "0x0cc82c5d228e197cc6cf57f5965dadf0280f2116"
+    contract_deployed_from = "0xdf1a197b098105bb296b4e91e9467fe2df155fe2"
+    recipient = "0x4222e15afd8807782885a0af94770619fdbdce7d"
 
     await eth_transaction_requests_topic.send(value={
-        "from": "0xe2ef28a7ee6aa52286ff73106e2a928ef9203f3d",
+        "from": contract_deployed_from,
         "gas": 0,
         "gasPrice": 0,
         "headers": {
@@ -49,10 +52,10 @@ async def send_transfer():
             "type": "function"
         },
         "params": [
-            "0x4222e15afd8807782885a0af94770619fdbdce7d",
+            recipient,
             "1"
         ],
-        "to": "0xf3a23e87e5764a2102eb77630e262f4717975c8d",
+        "to": contract_address,
         "value": 0
     })
     print(f"Tx with id {id} produced")

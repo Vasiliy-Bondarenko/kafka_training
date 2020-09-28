@@ -97,8 +97,8 @@ services:
 #    entrypoint: |
 #      bash -c "
 #      tail -f /dev/null"
-    volumes:
-      - ./eth_gateway/configs:/etc/kafka-mirrormaker
+#    volumes:
+#      - ./eth_gateway/configs:/etc/kafka-mirrormaker
     environment:
       LOG4J_LOGGER_ORG_APACHE_KAFKA: DEBUG
       LOG4J_ROOTLOGGER: DEBUG, stdout

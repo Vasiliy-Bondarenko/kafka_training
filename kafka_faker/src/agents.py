@@ -53,7 +53,7 @@ async def send_transfer():
         },
         "params": [
             recipient,
-            "1"
+            "8789789"
         ],
         "to": contract_address,
         "value": 0

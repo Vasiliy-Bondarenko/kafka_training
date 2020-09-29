@@ -23,6 +23,7 @@ done
 echo "Kafka Connect started!"
 echo "Creating logs connector - it can fail if connector already exists - that's fine!"
 /app/connectors/logs.sh
+/app/connectors/eth_gateway.sh
 echo
 
 sleep infinity

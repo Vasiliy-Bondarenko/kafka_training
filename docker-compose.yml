@@ -64,6 +64,9 @@ services:
       SCHEMA_REGISTRY_ENDPOINT: ${SCHEMA_REGISTRY_ENDPOINT}
       SCHEMA_REGISTRY_KEY: ${SCHEMA_REGISTRY_KEY}
       SCHEMA_REGISTRY_SECRET: ${SCHEMA_REGISTRY_SECRET}
+
+      KALEIDO_SUBMIT_TOPIC: ${KALEIDO_SUBMIT_TOPIC}
+      KALEIDO_RECEIVE_TOPIC: ${KALEIDO_RECEIVE_TOPIC}
   kafka_faker:
     build: ./kafka_faker
     entrypoint: |
@@ -86,13 +89,35 @@ services:
       SCHEMA_REGISTRY_ENDPOINT: ${SCHEMA_REGISTRY_ENDPOINT}
       SCHEMA_REGISTRY_KEY: ${SCHEMA_REGISTRY_KEY}
       SCHEMA_REGISTRY_SECRET: ${SCHEMA_REGISTRY_SECRET}
+  kafka_processors:
+    build: ./kafka_processors
+    entrypoint: |
+      bash -c "
+      tail -f /dev/null"
+    volumes:
+      - ./kafka_processors:/app
+    ports:
+      - 6067:6066
+    environment:
+      WORKER_PORT: 6066
+      KAFKA_BOOTSTRAP_SERVER: ${BROKER_URL}
+      BROKER_KEY: ${BROKER_KEY}
+      BROKER_SECRET: ${BROKER_SECRET}
+      SSL_ENABLED: 1
+
+      KALEIDO_SUBMIT_TOPIC: ${KALEIDO_SUBMIT_TOPIC}
+      KALEIDO_RECEIVE_TOPIC: ${KALEIDO_RECEIVE_TOPIC}
+
+      SCHEMA_REGISTRY_ENDPOINT: ${SCHEMA_REGISTRY_ENDPOINT}
+      SCHEMA_REGISTRY_KEY: ${SCHEMA_REGISTRY_KEY}
+      SCHEMA_REGISTRY_SECRET: ${SCHEMA_REGISTRY_SECRET}
   db:
     image: postgres
     ports:
       - "8032:5432"
     environment:
       POSTGRES_PASSWORD: open
-  eth_gateway:
+  eth_gateway_submit:
     build: ./eth_gateway
 #    entrypoint: |
 #      bash -c "
@@ -100,23 +125,14 @@ services:
 #    volumes:
 #      - ./eth_gateway/configs:/etc/kafka-mirrormaker
     environment:
-      LOG4J_LOGGER_ORG_APACHE_KAFKA: DEBUG
-      LOG4J_ROOTLOGGER: DEBUG, stdout
-      LOG4J_APPENDER_STDOUT: org.apache.log4j.ConsoleAppender
-      LOG4J_APPENDER_STDOUT_TARGET: System.out
-      LOG4J_APPENDER_STDOUT_LAYOUT: org.apache.log4j.PatternLayout
-      LOG4J_APPENDER_STDOUT_CONVERSIONPATTERN: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n"
-
-
       MIRRORMAKER_WHITE_LIST: ${KALEIDO_SUBMIT_TOPIC}
       MIRRORMAKER_ABORT_ON_SEND_FAILURE: "true"
       MIRRORMAKER_OFFSET_COMMIT_INTERVAL: 60000
       MIRRORMAKER_NUM_STREAMS: 1
-      MIRRORMAKER_CONSUMER_REBALANCE_LISTENER: org.mypackage.MyListener
-      MIRRORMAKER_CONSUMER_REBALANCE_LISTENER_ARGS: arg1,arg2
-      MIRRORMAKER_MESSAGE_HANDLER: org.mypackage.MyHandler
-      MIRRORMAKER_MESSAGE_HANDLER_ARGS: arg1,arg2
-#      KAFKA_HEAP_OPTSS: -Xmx2048m
+#      MIRRORMAKER_CONSUMER_REBALANCE_LISTENER: org.mypackage.MyListener
+#      MIRRORMAKER_CONSUMER_REBALANCE_LISTENER_ARGS: arg1,arg2
+#      MIRRORMAKER_MESSAGE_HANDLER: org.mypackage.MyHandler
+#      MIRRORMAKER_MESSAGE_HANDLER_ARGS: arg1,arg2
 
       CONSUMER_BOOTSTRAP_SERVERS: ${BROKER_URL}
       CONSUMER_GROUP_ID: MirrorMaker
@@ -136,4 +152,38 @@ services:
       PRODUCER_SASL_JAAS_CONFIG: org.apache.kafka.common.security.plain.PlainLoginModule required username="${KALEIDO_BROKER_KEY}" password="${KALEIDO_BROKER_SECRET}" serviceName="kafka";
       PRODUCER_SECURITY_PROTOCOL: SASL_SSL
 
-      KALEIDO_SUBMIT_TOPIC: ${KALEIDO_SUBMIT_TOPIC}
+#      KALEIDO_SUBMIT_TOPIC: ${KALEIDO_SUBMIT_TOPIC}
+  eth_gateway_receive:
+    build: ./eth_gateway
+    #    entrypoint: |
+    #      bash -c "
+    #      tail -f /dev/null"
+    #    volumes:
+    #      - ./eth_gateway/configs:/etc/kafka-mirrormaker
+    environment:
+      MIRRORMAKER_WHITE_LIST: ${KALEIDO_RECEIVE_TOPIC}
+      MIRRORMAKER_ABORT_ON_SEND_FAILURE: "true"
+      MIRRORMAKER_OFFSET_COMMIT_INTERVAL: 60000
+      MIRRORMAKER_NUM_STREAMS: 1
+#      MIRRORMAKER_CONSUMER_REBALANCE_LISTENER: org.mypackage.MyListener
+#      MIRRORMAKER_CONSUMER_REBALANCE_LISTENER_ARGS: arg1,arg2
+#      MIRRORMAKER_MESSAGE_HANDLER: org.mypackage.MyHandler
+#      MIRRORMAKER_MESSAGE_HANDLER_ARGS: arg1,arg2
+
+      CONSUMER_BOOTSTRAP_SERVERS: ${KALEIDO_BROKER_URLS}
+      CONSUMER_GROUP_ID: MirrorMaker
+      CONSUMER_AUTO_OFFSET_RESET: latest
+      CONSUMER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
+      CONSUMER_SASL_MECHANISM: PLAIN
+      CONSUMER_REQUEST_TIMEOUT_MS: 20000
+      CONSUMER_RETRY_BACKOFF_MS: 500
+      CONSUMER_SASL_JAAS_CONFIG: org.apache.kafka.common.security.plain.PlainLoginModule required username="${KALEIDO_BROKER_KEY}" password="${KALEIDO_BROKER_SECRET}" serviceName="kafka";
+      CONSUMER_SECURITY_PROTOCOL: SASL_SSL
+
+      PRODUCER_BOOTSTRAP_SERVERS: ${BROKER_URL}
+      PRODUCER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
+      PRODUCER_SASL_MECHANISM: PLAIN
+      PRODUCER_REQUEST_TIMEOUT_MS: 10000
+      PRODUCER_RETRY_BACKOFF_MS: 500
+      PRODUCER_SASL_JAAS_CONFIG: org.apache.kafka.common.security.plain.PlainLoginModule required username="${BROKER_KEY}" password="${BROKER_SECRET}" serviceName="kafka";
+      PRODUCER_SECURITY_PROTOCOL: SASL_SSL

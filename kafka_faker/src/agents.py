@@ -21,6 +21,7 @@ async def send_transfer():
     contract_address = "0x0cc82c5d228e197cc6cf57f5965dadf0280f2116"
     contract_deployed_from = "0xdf1a197b098105bb296b4e91e9467fe2df155fe2"
     recipient = "0x4222e15afd8807782885a0af94770619fdbdce7d"
+    function_name = fake.random_element(["transfer", "transfer", "transfer", "not_existing_function_name"])
 
     await eth_transaction_requests_topic.send(value={
         "from": contract_deployed_from,
@@ -41,7 +42,7 @@ async def send_transfer():
                     "type": "uint256"
                 }
             ],
-            "name": "transfer",
+            "name": function_name,
             "outputs": [
                 {
                     "name": "",
@@ -53,7 +54,7 @@ async def send_transfer():
         },
         "params": [
             recipient,
-            "8789789"
+            "1"
         ],
         "to": contract_address,
         "value": 0

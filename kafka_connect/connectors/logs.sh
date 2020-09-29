@@ -7,7 +7,7 @@ curl -X POST \
   "name": "logs",
   "config": {
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
-    "tasks.max": "1",
+    "tasks.max": "3",
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "value.converter": "io.confluent.connect.avro.AvroConverter",
     "topics": "logs",
@@ -16,7 +16,7 @@ curl -X POST \
     "connection.password": "open",
     "dialect.name": "PostgreSqlDatabaseDialect",
     "insert.mode": "insert",
-    "batch.size": "1",
+    "batch.size": "1000",
     "pk.mode": "kafka",
     "auto.create": "true",
     "auto.evolve": "true",

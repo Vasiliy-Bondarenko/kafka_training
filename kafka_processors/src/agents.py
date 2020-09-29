@@ -11,7 +11,8 @@ from src.models.EthTxResponse import EthTxResponse
 from src.schema_registry_client import schemaRegistryClient
 
 # !!! uncomment for development only !!!
-schemaRegistryClient.delete_subject("eth_transactions_receive-value")
+# schemaRegistryClient.delete_subject("eth_transactions_receive-value")
+# schemaRegistryClient.delete_subject("eth_transactions_submit")
 
 # initialize topics
 eth_tx_submit_topic = app.topic(os.getenv("KALEIDO_SUBMIT_TOPIC"), value_serializer='json')

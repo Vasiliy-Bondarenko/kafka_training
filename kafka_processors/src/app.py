@@ -4,7 +4,7 @@ from simple_settings import settings
 
 app = faust.App(
     # https://faust.readthedocs.io/en/latest/userguide/settings.html
-    id="kafka_faker",
+    id="kafka-processors",
     debug=settings.DEBUG,
     autodiscover=["agents"], # https://faust.readthedocs.io/en/latest/userguide/settings.html#autodiscover
     broker=settings.KAFKA_BOOTSTRAP_SERVER,

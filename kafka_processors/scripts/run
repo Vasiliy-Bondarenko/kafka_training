@@ -4,4 +4,4 @@ set -x
 export SIMPLE_SETTINGS=src.settings
 
 PYTHONPATH=src faust -A app worker --with-web --web-port=$WORKER_PORT --loglevel=info
-#PYTHONPATH=kafka_faker faust -A app agents
+#PYTHONPATH=kafka_processors faust -A app agents

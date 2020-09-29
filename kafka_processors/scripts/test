@@ -5,9 +5,9 @@ if [ -d 'venv' ] ; then
     export PREFIX="venv/bin/"
 fi
 
-export PYTHONPATH=kafka_faker
+export PYTHONPATH=kafka_processors
 export SIMPLE_SETTINGS=settings
 
 ${PREFIX}pytest ${1-"./tests"} ${2}
-${PREFIX}black kafka_faker tests/ --check --diff
-${PREFIX}flake8 kafka_faker tests/
+${PREFIX}black kafka_processors tests/ --check --diff
+${PREFIX}flake8 kafka_processors tests/

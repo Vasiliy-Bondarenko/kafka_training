@@ -1,6 +1,6 @@
 #!/bin/sh
 set -x
 
-export SIMPLE_SETTINGS=kafka_faker.settings
+export SIMPLE_SETTINGS=kafka_processors.settings
 
-PYTHONPATH=kafka_faker python kafka_faker/play.py
+PYTHONPATH=kafka_processors python kafka_processors/play.py

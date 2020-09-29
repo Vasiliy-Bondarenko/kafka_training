@@ -3,7 +3,7 @@ REPLICATION-FACTOR=1
 
 # For local development
 export WORKER_PORT=6066
-export SIMPLE_SETTINGS=kafka_faker.settings
+export SIMPLE_SETTINGS=kafka_processors.settings
 
 PYTHON?=python3.7
 
@@ -33,7 +33,7 @@ remove:
 	docker-compose rm --force -v
 
 remove-network:
-	docker network rm kafka_faker_default || true
+	docker network rm kafka_processors_default || true
 
 stop:
 	docker-compose stop
@@ -55,14 +55,14 @@ start-app:
 	./scripts/run
 
 send-page-view-event:
-	PYTHONPATH=kafka_faker faust -A app send page_views '${payload}'
+	PYTHONPATH=kafka_processors faust -A app send page_views '${payload}'
 
 list-agents:
-	PYTHONPATH=kafka_faker faust -A app agents
+	PYTHONPATH=kafka_processors faust -A app agents
 
 # Build docker image
 build:
-	docker build -t kafka_faker .
+	docker build -t kafka_processors .
 
 run:
-	docker run kafka_faker
+	docker run kafka_processors

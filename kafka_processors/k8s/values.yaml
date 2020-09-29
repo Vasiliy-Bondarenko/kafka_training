@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: kafka_faker
+  repository: kafka_processors
   tag: 0.0.1
   pullPolicy: Always
 

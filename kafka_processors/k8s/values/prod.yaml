@@ -1,6 +1,6 @@
 replicas: 2
 
-hostname: 'kafka_faker.com'
+hostname: 'kafka_processors.com'
 env: prod
 
 worker:

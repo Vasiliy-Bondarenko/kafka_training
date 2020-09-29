@@ -5,5 +5,5 @@ if [ -d 'venv' ] ; then
     export PREFIX="venv/bin/"
 fi
 
-${PREFIX}isort kafka_faker tests
-${PREFIX}black kafka_faker tests
+${PREFIX}isort kafka_processors tests
+${PREFIX}black kafka_processors tests

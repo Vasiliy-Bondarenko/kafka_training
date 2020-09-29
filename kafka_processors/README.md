@@ -59,5 +59,5 @@ Type checks
 Running type checks with mypy:
 
 ```sh
-mypy kafka_faker
+mypy kafka_processors
 ```

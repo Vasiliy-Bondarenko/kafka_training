@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
+# connection docs: https://docs.confluent.io/current/schema-registry/connect.html
 curl -X POST \
   http://localhost:8083/connectors \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
   -d '{
-  "name": "eth_gateway_v.0.1",
+  "name": "eth_gateway_v.0.3",
   "config": {
+    "consumer.override.auto.offset.reset": "earliest",
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
-    "tasks.max": "3",
+    "tasks.max": "1",
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "value.converter": "io.confluent.connect.avro.AvroConverter",
     "topics": "eth_transactions_submit,eth_transactions_receive",

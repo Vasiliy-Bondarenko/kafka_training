@@ -22,7 +22,8 @@ async def send_transfer():
     fake = Faker()
 
 
-    for n in range(1, 1000):
+    how_many = 3
+    for n in range(1, how_many):
         counter=counter+1
         id=fake.uuid4()
         contract_address = "0x0cc82c5d228e197cc6cf57f5965dadf0280f2116"
@@ -66,26 +67,32 @@ async def send_transfer():
             "to": contract_address,
             "value": 0
         })
-        print(f"Tx {counter} with id {id} produced")
+        # print(f"Tx {counter} with id {id} produced")
+
+    print(f"{how_many} txs created")
 
 log_item_serializer = LogItem.init_serializer()
 
-# @app.timer(interval=1.0)
-# async def logs_producer():
-#     log_item = LogItem.fake()
-#
-#     await topic_logs.send(
-#         value=log_item,
-#         key=str(log_item.customer_id),
-#         value_serializer=log_item_serializer
-#     )
-#
-#     print(f"LogItem created: {log_item}")
+@app.timer(interval=1.0)
+async def logs_producer():
+    log_item = LogItem.fake()
+
+    how_many = 3
+    for n in range(1, how_many):
+        await topic_logs.send(
+            value=log_item,
+            key=str(log_item.customer_id),
+            value_serializer=log_item_serializer
+        )
+
+        # print(f"LogItem created: {log_item}")
+
+    print(f"{how_many} LogItems created")
 
 
-@app.agent(topic_logs)
-async def logs_consumer(events):
-    async for event in events:
-        logger.info("Received event: ")
-        logger.info(event)
-        yield event
+# @app.agent(topic_logs)
+# async def logs_consumer(events):
+#     async for event in events:
+#         logger.info("Received event: ")
+#         logger.info(event)
+#         yield event

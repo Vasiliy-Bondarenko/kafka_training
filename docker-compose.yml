@@ -24,6 +24,8 @@ services:
     command: /app/start.sh
     environment:
       # settings taken mostly from: https://docs.confluent.io/4.0.0/cloud/connect/connect-cloud-config.html#standalone-cluster
+      CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY: All
+
       CONNECT_BOOTSTRAP_SERVERS: ${BROKER_URL}
 
       CONNECT_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
@@ -47,7 +49,7 @@ services:
       CONNECT_PRODUCER_SASL_JAAS_CONFIG: org.apache.kafka.common.security.plain.PlainLoginModule required username="${BROKER_KEY}" password="${BROKER_SECRET}" serviceName="kafka";
       CONNECT_PRODUCER_SECURITY_PROTOCOL: SASL_SSL
 
-      CONNECT_GROUP_ID: compose-connect-group
+      CONNECT_GROUP_ID: compose-connect-group-v.0.1
       CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 3
       CONNECT_CONFIG_STORAGE_TOPIC: docker_kafka_connect_config
       CONNECT_OFFSET_STORAGE_TOPIC: docker_kafka_connect_offset
@@ -91,9 +93,9 @@ services:
       SCHEMA_REGISTRY_SECRET: ${SCHEMA_REGISTRY_SECRET}
   kafka_processors:
     build: ./kafka_processors
-    entrypoint: |
-      bash -c "
-      tail -f /dev/null"
+#    entrypoint: |
+#      bash -c "
+#      tail -f /dev/null"
     volumes:
       - ./kafka_processors:/app
     ports:
@@ -205,7 +207,20 @@ services:
       PRODUCER_BOOTSTRAP_SERVERS: ${BROKER_URL}
       PRODUCER_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: https
       PRODUCER_SASL_MECHANISM: PLAIN
-      PRODUCER_REQUEST_TIMEOUT_MS: 10000
-      PRODUCER_RETRY_BACKOFF_MS: 500
       PRODUCER_SASL_JAAS_CONFIG: org.apache.kafka.common.security.plain.PlainLoginModule required username="${BROKER_KEY}" password="${BROKER_SECRET}" serviceName="kafka";
       PRODUCER_SECURITY_PROTOCOL: SASL_SSL
+
+      # Producer config: https://docs.confluent.io/current/installation/configuration/producer-configs.html
+      PRODUCER_REQUEST_TIMEOUT_MS: 30000 # 30 sec (will retry after that)
+      PRODUCER_RETRY_BACKOFF_MS: 2000
+      PRODUCER_MAX_BLOCK_MS: 60000
+      PRODUCER_LINGER_MS: 1000 # Batch all messages for 1 second before sending out.
+      PRODUCER_BUFFER_MEMORY: 33554432 # Max memory used for buffering before blocking for max.block.ms
+      PRODUCER_BATCH_SIZE: 500000 # In bytes
+      PRODUCER_DELIVERY_TIMEOUT_MS: 120000 # 3 minutes
+      PRODUCER_MAX_REQUEST_SIZE: 1048576 # (can be a few batches in 1 request)
+      #      PRODUCER_ENABLE_IDEMPOTENCE: "true" # NOT WORKING WITH KALEIDO! Lower the chance of transaction duplicates (they are still possible on Kaleido side)
+
+      PRODUCER_RETRIES: 5
+      PRODUCER_MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION: 1 # set to 1 to avoid reordering messages
+      PRODUCER_ACKS: "all"

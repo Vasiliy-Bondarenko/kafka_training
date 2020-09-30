@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
+# connection docs: https://docs.confluent.io/current/schema-registry/connect.html
 curl -X POST \
   http://localhost:8083/connectors \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
   -d '{
-  "name": "logs",
+  "name": "logs.v.0.4",
   "config": {
+    "consumer.override.auto.offset.reset": "earliest",
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
-    "tasks.max": "3",
+    "tasks.max": "1",
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "value.converter": "io.confluent.connect.avro.AvroConverter",
     "topics": "logs",
@@ -20,6 +22,7 @@ curl -X POST \
     "pk.mode": "kafka",
     "auto.create": "true",
     "auto.evolve": "true",
+
     "value.converter.schema.registry.url": "'${SCHEMA_REGISTRY_ENDPOINT}'",
     "value.converter.basic.auth.credentials.source": "USER_INFO",
     "value.converter.basic.auth.user.info": "'${SCHEMA_REGISTRY_KEY}':'${SCHEMA_REGISTRY_SECRET}'"

@@ -125,9 +125,13 @@ services:
 #    volumes:
 #      - ./eth_gateway/configs:/etc/kafka-mirrormaker
     environment:
+      # [2020-09-29 11:21:12,736] ERROR Error when sending message to topic e0zgfop4ib-e0b4hhlppa-requests with key: null, value: 531 bytes with error: (org.apache.kafka.clients.producer.internals.ErrorLoggingCallback)
+      #org.apache.kafka.common.errors.TimeoutException: Expiring 30 record(s) for e0zgfop4ib-e0b4hhlppa-requests-0: 260985 ms has passed since last append
+      # то ли он не пытается отправить батч, то ли не может отправить и отваливается с таймаутом
+
       MIRRORMAKER_WHITE_LIST: ${KALEIDO_SUBMIT_TOPIC}
       MIRRORMAKER_ABORT_ON_SEND_FAILURE: "true"
-      MIRRORMAKER_OFFSET_COMMIT_INTERVAL: 60000
+      MIRRORMAKER_OFFSET_COMMIT_INTERVAL: 10000
       MIRRORMAKER_NUM_STREAMS: 1
 #      MIRRORMAKER_CONSUMER_REBALANCE_LISTENER: org.mypackage.MyListener
 #      MIRRORMAKER_CONSUMER_REBALANCE_LISTENER_ARGS: arg1,arg2

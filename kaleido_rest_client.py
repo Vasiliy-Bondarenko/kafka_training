@@ -8,8 +8,8 @@ class KaleidoEthereumProvider:
 
     def __init__(self):
         # FIXME
-        USER = "e0fyqfxmcw"
-        PASS = "jLPxTW9IeItfgDhe0MlP_iHqEVg7KpTtLJ4LX1cKdgI"
+        USER = "xxxxxxxx"
+        PASS = "xxxxxxxxxxxxxxxxx"
         RPC_ENDPOINT = "https://e0u9yrfjnc-e0v6nvzwc3-rpc.de0-aws.kaleido.io"
 
         # Encode the username and password from the app creds into USER:PASS base64 encoded string

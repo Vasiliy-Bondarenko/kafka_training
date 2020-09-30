@@ -13,53 +13,60 @@ topic_logs = app.topic("logs", value_type=LogItem)
 
 logger = logging.getLogger(__name__)
 
+counter = 0
+
 @app.timer(interval=1.0)
 async def send_transfer():
+    global counter
     from faker import Faker
     fake = Faker()
-    id=fake.uuid4()
-    contract_address = "0x0cc82c5d228e197cc6cf57f5965dadf0280f2116"
-    contract_deployed_from = "0xdf1a197b098105bb296b4e91e9467fe2df155fe2"
-    recipient = "0x4222e15afd8807782885a0af94770619fdbdce7d"
-    function_name = fake.random_element(["transfer", "transfer", "transfer", "not_existing_function_name"])
 
-    await eth_transaction_requests_topic.send(value={
-        "from": contract_deployed_from,
-        "gas": 0,
-        "gasPrice": 0,
-        "headers": {
-            "id": id,
-            "type": "SendTransaction"
-        },
-        "method": {
-            "inputs": [
-                {
-                    "name": "recipient",
-                    "type": "address"
-                },
-                {
-                    "name": "amount",
-                    "type": "uint256"
-                }
+
+    for n in range(1, 10):
+        counter=counter+1
+        id=fake.uuid4()
+        contract_address = "0x0cc82c5d228e197cc6cf57f5965dadf0280f2116"
+        contract_deployed_from = "0xdf1a197b098105bb296b4e91e9467fe2df155fe2"
+        recipient = "0x4222e15afd8807782885a0af94770619fdbdce7d"
+        function_name = fake.random_element(["transfer", "transfer", "transfer", "not_existing_function_name"])
+
+        await eth_transaction_requests_topic.send(value={
+            "from": contract_deployed_from,
+            "gas": 0,
+            "gasPrice": 0,
+            "headers": {
+                "id": id,
+                "type": "SendTransaction"
+            },
+            "method": {
+                "inputs": [
+                    {
+                        "name": "recipient",
+                        "type": "address"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": function_name,
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            "params": [
+                recipient,
+                "1"
             ],
-            "name": function_name,
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        "params": [
-            recipient,
-            "1"
-        ],
-        "to": contract_address,
-        "value": 0
-    })
-    print(f"Tx with id {id} produced")
+            "to": contract_address,
+            "value": 0
+        })
+        print(f"Tx {counter} with id {id} produced")
 
 log_item_serializer = LogItem.init_serializer()
 

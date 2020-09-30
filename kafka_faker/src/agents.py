@@ -22,7 +22,7 @@ async def send_transfer():
     fake = Faker()
 
 
-    for n in range(1, 10):
+    for n in range(1, 1000):
         counter=counter+1
         id=fake.uuid4()
         contract_address = "0x0cc82c5d228e197cc6cf57f5965dadf0280f2116"

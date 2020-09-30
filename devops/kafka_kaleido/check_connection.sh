@@ -5,12 +5,8 @@
 source ../../.env && \
 echo Whatching $KALEIDO_SUBMIT_TOPIC topic && \
 docker run -it --network=host edenhill/kafkacat:1.6.0 \
-  -b $KALEIDO_BROKER_URLS -L  \
+  -b $KALEIDO_BROKER_URLS -L \
   -X security.protocol=SASL_SSL \
   -X sasl.mechanism=PLAIN \
   -X sasl.username=$KALEIDO_BROKER_KEY \
-  -X sasl.password=$KALEIDO_BROKER_SECRET \
-  -o -5 \
-  -D \\n\\n \
-  -q \
-  -C -t $KALEIDO_SUBMIT_TOPIC
+  -X sasl.password=$KALEIDO_BROKER_SECRET

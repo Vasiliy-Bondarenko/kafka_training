@@ -22,7 +22,7 @@ async def send_transfer():
     fake = Faker()
 
 
-    how_many = 3
+    how_many = 1000
     for n in range(1, how_many):
         counter=counter+1
         id=fake.uuid4()

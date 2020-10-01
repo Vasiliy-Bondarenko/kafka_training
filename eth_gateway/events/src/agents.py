@@ -8,8 +8,8 @@ from src.models.EthEvent import EthEvent
 logger = logging.getLogger(__name__)
 
 # !!! uncomment for development only !!!
-from src.schema_registry_client import schemaRegistryClient
-schemaRegistryClient.delete_subject("eth_events-value")
+# from src.schema_registry_client import schemaRegistryClient
+# schemaRegistryClient.delete_subject("eth_events-value")
 
 topic_eth_events = app.topic("eth_events", value_type=EthEvent)
 EthEvent.init_serializer()

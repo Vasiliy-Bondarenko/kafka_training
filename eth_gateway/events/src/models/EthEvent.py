@@ -8,6 +8,7 @@ fake = Faker()
 
 
 class EthEvent(BaseModel, serializer='eth_event'):
+    id: str
     address: str
     blockNumber: int
     transactionIndex: str
@@ -25,6 +26,7 @@ class EthEvent(BaseModel, serializer='eth_event'):
         "namespace": "com.ktbst",
         "name": "EthEvent",
         "fields": [
+            {"name": "id", "type": "string"},
             {"name": "address", "type": "string"},
             {"name": "blockNumber", "type": "int"},
             {"name": "transactionIndex", "type": "string"},
@@ -59,6 +61,8 @@ class EthEvent(BaseModel, serializer='eth_event'):
         '''
 
         return cls(
+            # why? https://ethereum.stackexchange.com/questions/55155/contract-event-transactionindex-and-logindex
+            id=f'{event["blockNumber"]}-{event["transactionHash"]}-{event["logIndex"]}',
             signature=event["signature"],
             data=json.dumps(event["data"]),
             transactionHash=event["transactionHash"],

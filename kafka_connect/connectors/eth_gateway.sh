@@ -12,7 +12,7 @@ curl -X POST \
     "tasks.max": "1",
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "value.converter": "io.confluent.connect.avro.AvroConverter",
-    "topics": "eth_transactions_submit,eth_transactions_receive",
+    "topics": "eth_transactions_submit,eth_transactions_receive,eth_events",
     "connection.url": "jdbc:postgresql://db:5432/postgres",
     "connection.user": "postgres",
     "connection.password": "open",

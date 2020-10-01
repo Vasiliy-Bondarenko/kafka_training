@@ -226,9 +226,9 @@ services:
       PRODUCER_ACKS: "all"
   eth_gateway_events:
     build: ./eth_gateway/events
-    entrypoint: |
-      bash -c "
-      tail -f /dev/null"
+#    entrypoint: |
+#      bash -c "
+#      tail -f /dev/null"
 #    entrypoint: echo ETH_GATEWAY_EVENTS_ENDPOINT_AUTH_KEY = $ETH_GATEWAY_EVENTS_ENDPOINT_AUTH_KEY
     volumes:
       - ./eth_gateway/events:/app

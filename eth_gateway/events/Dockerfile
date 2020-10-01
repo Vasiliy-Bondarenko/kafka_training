@@ -21,8 +21,8 @@ RUN yes Y | apt-get remove --purge git libgflags-dev libsnappy-dev zlib1g-dev li
 
 
 # Create unprivileged user
-RUN groupadd --non-unique --gid 1000 faust && adduser --disabled-password --uid 1000 --gid 1000 faust
-RUN chown -R faust:faust /app
-USER faust
+#RUN groupadd --non-unique --gid 1000 faust && adduser --disabled-password --uid 1000 --gid 1000 faust
+#RUN chown -R faust:faust /app
+#USER faust
 
 ENTRYPOINT ["./scripts/run"]

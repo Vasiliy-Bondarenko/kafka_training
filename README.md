@@ -49,6 +49,7 @@ You should see something like `Created topic "logs".`
 
 Congrats! You have a running Kafka environment. 
 
+
 ## More information
 - [Faust overview](https://www.youtube.com/watch?v=Ik1PBbCWcTc)
 - [AVRO specs](http://avro.apache.org/docs/current/spec.html)

@@ -1,18 +1,18 @@
 import logging
 from app import app
+from faust.web import Request, Response, View
 
 logger = logging.getLogger(__name__)
 
-# this counter exists in-memory only,
-# so will be wiped when the worker restarts.
-count = [0]
 
+@app.page('/events/')
+class counter(View):
+    async def get(self, request: Request) -> Response:
+        logger.info("received GET call")
+        logger.info(request)
+        return self.json({"method": "get"})
 
-@app.page('/count/')
-async def get_count(self, request):
-    # update the counter
-    count[0] += 1
-    # and return it.
-    return self.json({
-        'count': count[0],
-    })
+    async def post(self, request: Request) -> Response:
+        logger.info("received POST call")
+        logger.info(request)
+        return self.json({"method": "post"})

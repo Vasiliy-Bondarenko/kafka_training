@@ -243,3 +243,9 @@ services:
       SCHEMA_REGISTRY_ENDPOINT: ${SCHEMA_REGISTRY_ENDPOINT}
       SCHEMA_REGISTRY_KEY: ${SCHEMA_REGISTRY_KEY}
       SCHEMA_REGISTRY_SECRET: ${SCHEMA_REGISTRY_SECRET}
+  eth_gateway_tunnel:
+    build: ./eth_gateway/tunnel
+#    entrypoint: |
+#      bash -c "
+#      tail -f /dev/null"
+    entrypoint: lt --port 6066 --subdomain ${ETH_GATEWAY_EVENTS_ENDPOINT_TUNNEL_DOMAIN} --local-host eth_gateway_events

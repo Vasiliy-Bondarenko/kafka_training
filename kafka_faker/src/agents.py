@@ -3,6 +3,7 @@ import os
 
 from app import app
 from src.models.LogItem import LogItem
+from src.models.LogItem import LogItem
 # from .codecs import  avro_user_serializer
 
 

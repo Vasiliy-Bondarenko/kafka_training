@@ -2,7 +2,7 @@
 # pass-through variables from environment into containers with ${VAR}
 # start services with ./start.sh script
 ---
-version: '2'
+version: '3'
 services:
   connect-ui:
     # docs: https://github.com/lensesio/kafka-connect-ui
@@ -229,6 +229,7 @@ services:
     entrypoint: |
       bash -c "
       tail -f /dev/null"
+#    entrypoint: echo ETH_GATEWAY_EVENTS_ENDPOINT_AUTH_KEY = $ETH_GATEWAY_EVENTS_ENDPOINT_AUTH_KEY
     volumes:
       - ./eth_gateway/events:/app
     ports:
@@ -243,9 +244,18 @@ services:
       SCHEMA_REGISTRY_ENDPOINT: ${SCHEMA_REGISTRY_ENDPOINT}
       SCHEMA_REGISTRY_KEY: ${SCHEMA_REGISTRY_KEY}
       SCHEMA_REGISTRY_SECRET: ${SCHEMA_REGISTRY_SECRET}
+
+      ETH_GATEWAY_EVENTS_ENDPOINT_AUTH_KEY: ${ETH_GATEWAY_EVENTS_ENDPOINT_AUTH_KEY}
+
   eth_gateway_tunnel:
     build: ./eth_gateway/tunnel
 #    entrypoint: |
 #      bash -c "
 #      tail -f /dev/null"
     entrypoint: lt --port 6066 --subdomain ${ETH_GATEWAY_EVENTS_ENDPOINT_TUNNEL_DOMAIN} --local-host eth_gateway_events
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+#        max_attempts: 3
+#        window: 120s

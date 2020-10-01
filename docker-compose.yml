@@ -224,3 +224,22 @@ services:
       PRODUCER_RETRIES: 5
       PRODUCER_MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION: 1 # set to 1 to avoid reordering messages
       PRODUCER_ACKS: "all"
+  eth_gateway_events:
+    build: ./eth_gateway/events
+    entrypoint: |
+      bash -c "
+      tail -f /dev/null"
+    volumes:
+      - ./eth_gateway/events:/app
+    ports:
+      - 6068:6066
+    environment:
+      WORKER_PORT: 6066
+      KAFKA_BOOTSTRAP_SERVER: ${BROKER_URL}
+      BROKER_KEY: ${BROKER_KEY}
+      BROKER_SECRET: ${BROKER_SECRET}
+      SSL_ENABLED: 1
+
+      SCHEMA_REGISTRY_ENDPOINT: ${SCHEMA_REGISTRY_ENDPOINT}
+      SCHEMA_REGISTRY_KEY: ${SCHEMA_REGISTRY_KEY}
+      SCHEMA_REGISTRY_SECRET: ${SCHEMA_REGISTRY_SECRET}
